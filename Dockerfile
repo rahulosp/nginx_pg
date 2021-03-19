@@ -6,7 +6,8 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7FCC7D46ACCC4CF8
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y software-properties-common postgresql-13 postgresql-client-13 postgresql-contrib-13 nginx
+RUN apt-get update && apt-get install -y software-properties-common postgresql-13 postgresql-client-13 postgresql-contrib-13 nginx rsync net-tools
+RUN apt-get install -y python
 
 USER postgres
 RUN    /etc/init.d/postgresql start &&\

@@ -1,0 +1,38 @@
+kind: Service
+apiVersion: v1
+metadata:
+  annotations:
+    meta.helm.sh/release-name: pgnginx
+    meta.helm.sh/release-namespace: default
+  name: pgnginx
+  managedFields:
+    - manager: Go-http-client
+      operation: Update
+      apiVersion: v1
+    - manager: kube-controller-manager
+      operation: Update
+      apiVersion: v1
+  namespace: default
+  finalizers:
+    - service.kubernetes.io/load-balancer-cleanup
+  labels:
+    app.kubernetes.io/instance: pgnginx
+    app.kubernetes.io/managed-by: manual
+    app.kubernetes.io/name: pgnginx
+    helm.sh/chart: pgnginx-0.0.1
+spec:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: http
+    - name: pgsql
+      protocol: TCP
+      port: 5432
+      targetPort: pgsql
+  selector:
+    app.kubernetes.io/instance: pgnginx
+    app.kubernetes.io/name: pgnginx
+  type: LoadBalancer
+  sessionAffinity: None
+  externalTrafficPolicy: Cluster
